@@ -1,0 +1,47 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Net;
+
+namespace Rextester
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            using (WebClient client = new WebClient())
+            {
+                string searchFor = "TUTAJ WSTAW S£OWO KLUCZ";
+
+                client.Encoding = Encoding.UTF8;
+                string htmlCode = client.DownloadString("TUTAJ WSTAW ADRES STRONY");
+
+                int indexStartBody = htmlCode.IndexOf("<body");
+
+                string body = htmlCode.Substring(indexStartBody);
+
+                body = CutHtmlSyntax(body);
+
+                string[] splitted = Regex.Split(body, @"(?<=[.?!])");
+
+                for (int i = 0; i < splitted.Length; i++)
+                {
+                    if (splitted[i].Contains(searchFor))
+                    {
+                        Console.WriteLine(splitted[i]);
+                        
+                    }
+                }
+                Console.ReadKey();
+            }
+        }
+
+        public static string CutHtmlSyntax(string input)
+        {
+            string x = input.Replace("&nbsp;", "").Replace("&#8211;", "").Replace("\n", " ").Replace("\t", " ");
+            return Regex.Replace(x, "<.*?>", String.Empty);
+        }
+    }
+}
