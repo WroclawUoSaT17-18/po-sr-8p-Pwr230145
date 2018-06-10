@@ -1,0 +1,47 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Tetris;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Tetris.Tests
+{
+    [TestClass()]
+    public class TetrominoeTests
+    {
+        [TestMethod()]
+        public void isSomethingRightTest()
+        {
+
+            Tetrominoe target = new Tetrominoe();
+            for (int j = 0; j < 10; j++)
+            {
+
+                target.location.Add(new int[] { j, j });
+
+            }
+            target.location[3][1] = 9;
+
+            bool wynik = target.isSomethingRight();
+            Assert.IsTrue(wynik);
+        }
+
+        [TestMethod()]
+        public void isSomethingLeftTest()
+        {
+            Tetrominoe target = new Tetrominoe();
+            for (int j = 0; j < 10; j++)
+            {
+
+                target.location.Add(new int[] { j, j });
+
+            }
+            target.location[3][1] = 0;
+
+            bool wynik = target.isSomethingLeft();
+            Assert.IsTrue(wynik);
+        }
+    }
+}
